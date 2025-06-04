@@ -28,6 +28,7 @@ Then publish the config and migration file of the package using artisan.
 php artisan vendor:publish --provider="Yaro\LogEnvelope\ServiceProvider"
 ```
 
+### Laravel < 11
 Change your Exception Handler's (```/app/Exceptions/Handler.php``` by default) ```report``` method like this:
 ```php
 //...
@@ -41,6 +42,18 @@ public function report(Exception $e)
     return $res; 
 }
 //...
+```
+
+### Laravel >= 11
+Change your Exception Handler's (```/app/Exceptions/Handler.php``` by default) ```report``` method like this:
+```php
+// bootstrap/app.php
+
+->withExceptions(function (Exceptions $exceptions) {
+    $exceptions->report(function (Exception $e) {
+        \LogEnvelope::send($e);
+    });
+})
 ```
 
 Change config ```yaro.log-envelope.php``` for your needs. You can choose to log your errors to your database or send them to your email/telegram/slack. Emails are preferable, cuz they contains more debug information, such as traceback.
