@@ -45,7 +45,7 @@ public function report(Exception $e)
 ```
 
 ### Laravel >= 11
-Change your Exception Handler's (```/app/Exceptions/Handler.php``` by default) ```report``` method like this:
+Change your Exception Handler's method like this:
 ```php
 // bootstrap/app.php
 
@@ -55,6 +55,17 @@ Change your Exception Handler's (```/app/Exceptions/Handler.php``` by default) `
     });
 })
 ```
+
+Add the provider to the providers file `bootstrap/providers.php` :
+```php
+// bootstrap/providers.php
+
+return [
+    Yaro\LogEnvelope\ServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+];
+```
+
 
 Change config ```yaro.log-envelope.php``` for your needs. You can choose to log your errors to your database or send them to your email/telegram/slack. Emails are preferable, cuz they contains more debug information, such as traceback.
 
